@@ -26,11 +26,23 @@ public struct SampledColor: Codable, Hashable, Identifiable, Sendable {
         return "hsl(\(parts.hue), \(parts.saturation)%, \(parts.lightness)%)"
     }
 
+    var hsbString: String {
+        let parts = ColorMath.hueSaturationBrightness(red: red, green: green, blue: blue)
+        return "hsb(\(parts.hue), \(parts.saturation)%, \(parts.brightness)%)"
+    }
+
+    var swiftString: String {
+        func component(_ value: Double) -> String { String(format: "%.2f", value) }
+        return "Color(red: \(component(red)), green: \(component(green)), blue: \(component(blue)))"
+    }
+
     func text(in notation: ColorNotation) -> String {
         switch notation {
         case .hex: return hexString
         case .rgb: return rgbString
         case .hsl: return hslString
+        case .hsb: return hsbString
+        case .swiftUI: return swiftString
         }
     }
 

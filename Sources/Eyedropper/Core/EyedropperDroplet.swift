@@ -108,6 +108,14 @@ public final class EyedropperDroplet: NSObject, ObservableObject, Droplet {
         setShortcut(Self.defaultPickShortcut)
     }
 
+    public func copyPalette() {
+        guard let host, !recentColors.isEmpty else { return }
+        let text = recentColors.map { $0.text(in: notation) }.joined(separator: "\n")
+        if host.workspace.copyToPasteboard(text) {
+            host.feedback.play(.tick)
+        }
+    }
+
     public func clearPalette() {
         recentColors = []
         activeColor = nil

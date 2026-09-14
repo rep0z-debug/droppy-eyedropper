@@ -42,6 +42,36 @@ enum ColorMath {
         )
     }
 
+    static func hueSaturationBrightness(
+        red: Double,
+        green: Double,
+        blue: Double
+    ) -> (hue: Int, saturation: Int, brightness: Int) {
+        let highest = max(red, green, blue)
+        let lowest = min(red, green, blue)
+        let spread = highest - lowest
+        let saturation = highest == 0 ? 0 : spread / highest
+
+        var hue = 0.0
+        if spread != 0 {
+            if highest == red {
+                hue = ((green - blue) / spread).truncatingRemainder(dividingBy: 6)
+            } else if highest == green {
+                hue = (blue - red) / spread + 2
+            } else {
+                hue = (red - green) / spread + 4
+            }
+            hue *= 60
+            if hue < 0 { hue += 360 }
+        }
+
+        return (
+            hue: Int(hue.rounded()),
+            saturation: Int((saturation * 100).rounded()),
+            brightness: Int((highest * 100).rounded())
+        )
+    }
+
     static func relativeLuminance(red: Double, green: Double, blue: Double) -> Double {
         func straighten(_ channel: Double) -> Double {
             channel <= 0.03928 ? channel / 12.92 : pow((channel + 0.055) / 1.055, 2.4)

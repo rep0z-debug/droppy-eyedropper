@@ -76,6 +76,8 @@ private struct PaletteWidget: View {
                         .font(.system(size: 16, weight: .semibold, design: .rounded))
                         .monospacedDigit()
                         .foregroundStyle(AdaptiveColors.notchSurfacePrimaryText)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.6)
                     Text("Tap to copy")
                         .font(.system(size: 10))
                         .foregroundStyle(AdaptiveColors.notchSurfaceTertiaryText)

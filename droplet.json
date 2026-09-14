@@ -1,7 +1,7 @@
 {
   "id": "eyedropper",
   "name": "Eyedropper",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "summary": "Pick any color on screen",
   "description": "Eyedropper puts a color picker on Droppy's shelf. You can use it from the notch, the menu bar, or a shortcut.\n\nEvery color you pick lands in a recent palette and on your clipboard as hex, RGB, or HSL, whichever you prefer.",
   "category": "Productivity",

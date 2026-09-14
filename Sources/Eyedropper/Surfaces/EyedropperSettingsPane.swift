@@ -131,12 +131,19 @@ private struct EyedropperSettings: View {
                     palette
                 }
                 DropletSettingsDivider()
-                DropletControlRow(title: "Clear palette") {
-                    Button("Clear") {
-                        droplet.clearPalette()
+                DropletControlRow(title: "Palette") {
+                    HStack(spacing: DroppySpacing.sm) {
+                        Button("Copy all") {
+                            droplet.copyPalette()
+                        }
+                        .buttonStyle(DroppyQuietButtonStyle(size: .small))
+                        .disabled(droplet.recentColors.isEmpty)
+                        Button("Clear") {
+                            droplet.clearPalette()
+                        }
+                        .buttonStyle(DroppyQuietButtonStyle(size: .small, destructive: true))
+                        .disabled(droplet.recentColors.isEmpty)
                     }
-                    .buttonStyle(DroppyQuietButtonStyle(size: .small, destructive: true))
-                    .disabled(droplet.recentColors.isEmpty)
                 }
             }
         }
