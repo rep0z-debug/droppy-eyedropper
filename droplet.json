@@ -1,0 +1,47 @@
+{
+  "id": "eyedropper",
+  "name": "Eyedropper",
+  "version": "1.0.0",
+  "summary": "Pick any color on screen",
+  "description": "Eyedropper puts a color picker on Droppy's shelf. You can use it from the notch, the menu bar, or a shortcut.\n\nEvery color you pick lands in a recent palette and on your clipboard as hex, RGB, or HSL, whichever you prefer.",
+  "category": "Productivity",
+  "kit": {
+    "abi": 1,
+    "minAPI": "1.6.0"
+  },
+  "minAppVersion": "15.3.0",
+  "capabilities": [
+    "hud",
+    "clipboard-write",
+    "global-shortcuts",
+    "menu-bar"
+  ],
+  "surfaces": [
+    "shelf-widget",
+    "hud",
+    "menu-bar-extra",
+    "settings-pane"
+  ],
+  "icon": "Eyedropper.icon",
+  "creator": {
+    "name": "rep0z",
+    "kind": "community",
+    "url": "https://github.com/rep0z-debug",
+    "avatar": "Creator.png"
+  },
+  "source": {
+    "repository": "https://github.com/rep0z-debug/droppy-eyedropper",
+    "license": "MIT"
+  },
+  "keywords": [
+    "color",
+    "eyedropper",
+    "picker",
+    "hex",
+    "rgb",
+    "hsl",
+    "palette",
+    "pixel",
+    "loupe"
+  ]
+}
