@@ -17,6 +17,7 @@ public final class EyedropperDroplet: NSObject, ObservableObject, Droplet {
     private static let pickShortcutID = "pick"
 
     @Published public private(set) var recentColors: [SampledColor] = []
+    @Published public private(set) var activeColor: SampledColor?
     @Published public private(set) var notation: ColorNotation = .hex
     @Published public private(set) var copiesAutomatically = true
     @Published public private(set) var showsMenuBarItem = false
@@ -58,6 +59,18 @@ public final class EyedropperDroplet: NSObject, ObservableObject, Droplet {
         showReadout(for: color)
     }
 
+    public var displayedColor: SampledColor? {
+        if let activeColor, recentColors.contains(where: { $0.id == activeColor.id }) {
+            return activeColor
+        }
+        return recentColors.first
+    }
+
+    public func select(_ color: SampledColor) {
+        activeColor = color
+        copy(color)
+    }
+
     public func chooseNotation(_ value: ColorNotation) {
         notation = value
         host?.preferences.setValue(value.rawValue, forKey: StorageKey.notation)
@@ -97,6 +110,7 @@ public final class EyedropperDroplet: NSObject, ObservableObject, Droplet {
 
     public func clearPalette() {
         recentColors = []
+        activeColor = nil
         host?.preferences.setValue([SampledColor](), forKey: StorageKey.recentColors)
     }
 
@@ -118,6 +132,7 @@ public final class EyedropperDroplet: NSObject, ObservableObject, Droplet {
 
     private func remember(_ color: SampledColor, host: DropletHost) {
         recentColors = Palette.remembering(color, in: recentColors)
+        activeColor = color
         host.preferences.setValue(recentColors, forKey: StorageKey.recentColors)
         if copiesAutomatically {
             _ = host.workspace.copyToPasteboard(color.text(in: notation))

@@ -32,8 +32,8 @@ private struct PaletteWidget: View {
     var body: some View {
         VStack(alignment: .leading, spacing: DroppySpacing.sm) {
             header
-            if let latest = droplet.recentColors.first {
-                filled(latest: latest)
+            if let current = droplet.displayedColor {
+                filled(current: current)
             } else {
                 placeholder
             }
@@ -50,37 +50,29 @@ private struct PaletteWidget: View {
             Text("Eyedropper")
                 .font(.system(size: 12, weight: .semibold))
             Spacer(minLength: 0)
-            Button {
-                droplet.pickColor()
-            } label: {
-                Image(systemName: "eyedropper.halffull")
-            }
-            .buttonStyle(DroppyCircleButtonStyle(size: 20))
-            .help("Pick a color")
-            .accessibilityLabel("Pick a color")
         }
         .foregroundStyle(AdaptiveColors.notchSurfaceSecondaryText)
     }
 
     @ViewBuilder
-    private func filled(latest: SampledColor) -> some View {
+    private func filled(current: SampledColor) -> some View {
         if context.isCompact {
-            hero(latest: latest, tileSize: 40)
+            hero(current: current, tileSize: 40)
         } else {
-            hero(latest: latest, tileSize: 46)
-            recentStrip
+            hero(current: current, tileSize: 46)
+            recentStrip(current: current)
             notationRow
         }
     }
 
-    private func hero(latest: SampledColor, tileSize: CGFloat) -> some View {
+    private func hero(current: SampledColor, tileSize: CGFloat) -> some View {
         Button {
-            droplet.copy(latest)
+            droplet.copy(current)
         } label: {
             HStack(spacing: DroppySpacing.smd) {
-                ColorTile(color: latest, size: tileSize, cornerRadius: DroppyRadius.medium)
+                ColorTile(color: current, size: tileSize, cornerRadius: DroppyRadius.medium)
                 VStack(alignment: .leading, spacing: 2) {
-                    Text(latest.text(in: droplet.notation))
+                    Text(current.text(in: droplet.notation))
                         .font(.system(size: 16, weight: .semibold, design: .rounded))
                         .monospacedDigit()
                         .foregroundStyle(AdaptiveColors.notchSurfacePrimaryText)
@@ -95,11 +87,11 @@ private struct PaletteWidget: View {
         .buttonStyle(.plain)
     }
 
-    private var recentStrip: some View {
+    private func recentStrip(current: SampledColor) -> some View {
         HStack(spacing: DroppySpacing.xs) {
-            ForEach(droplet.recentColors.dropFirst().prefix(9)) { color in
+            ForEach(droplet.recentColors.filter { $0.id != current.id }.prefix(9)) { color in
                 Button {
-                    droplet.copy(color)
+                    droplet.select(color)
                 } label: {
                     ColorTile(color: color, size: 22, cornerRadius: DroppyRadius.small)
                 }
@@ -131,16 +123,20 @@ private struct PaletteWidget: View {
     }
 
     private var placeholder: some View {
-        VStack(alignment: .leading, spacing: DroppySpacing.sm) {
-            Text(context.isCompact ? "No colors yet" : "Pick a color from anywhere on screen.")
-                .font(.system(size: context.isCompact ? 12 : 13))
+        VStack(alignment: .leading, spacing: DroppySpacing.xsm) {
+            Text("No colors yet")
+                .font(.system(size: 13, weight: .medium))
                 .foregroundStyle(AdaptiveColors.notchSurfaceSecondaryText)
-            Button {
-                droplet.pickColor()
-            } label: {
-                Label("Pick a color", systemImage: "eyedropper")
-            }
-            .buttonStyle(DroppyAccentButtonStyle(size: .small))
+            Text(pickHint)
+                .font(.system(size: 11))
+                .foregroundStyle(AdaptiveColors.notchSurfaceTertiaryText)
         }
+    }
+
+    private var pickHint: String {
+        if let shortcut = droplet.pickShortcut {
+            return "Press \(ShortcutText.label(shortcut)) to pick a color."
+        }
+        return "Set a shortcut in Settings to start picking."
     }
 }
