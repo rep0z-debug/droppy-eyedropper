@@ -18,10 +18,12 @@ struct NotchReadout: View {
                     Circle().strokeBorder(AdaptiveColors.notchSurfacePrimaryText.opacity(0.18), lineWidth: 1)
                 )
             Spacer(minLength: 0)
-            Text(color.hexString)
+            Text(color.text(in: notation))
                 .font(.system(size: DroppyLiveActivityMetrics.labelFontSize, weight: .semibold))
                 .monospacedDigit()
                 .foregroundStyle(AdaptiveColors.notchSurfacePrimaryText)
+                .lineLimit(1)
+                .minimumScaleFactor(0.6)
         }
         .frame(maxWidth: .infinity)
     }

@@ -40,6 +40,7 @@ public final class EyedropperDroplet: NSObject, ObservableObject, Droplet {
     }
 
     public func deactivate() {
+        host?.shortcuts.unregister(id: Self.pickShortcutID)
         host = nil
     }
 

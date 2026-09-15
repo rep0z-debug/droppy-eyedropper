@@ -73,7 +73,7 @@ private struct EyedropperSettings: View {
                 DropletSettingsDivider()
                 DropletToggleRow(
                     title: "Copy automatically",
-                    subtitle: "Put the value on the clipboard when you select a color.",
+                    subtitle: "Put the value on the clipboard when you pick a color.",
                     isOn: automaticCopy
                 )
                 DropletSettingsDivider()

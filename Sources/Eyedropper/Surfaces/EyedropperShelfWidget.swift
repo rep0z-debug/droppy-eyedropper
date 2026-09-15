@@ -113,15 +113,23 @@ private struct PaletteWidget: View {
         }
     }
 
-    @ViewBuilder
     private func notationButton(_ option: ColorNotation) -> some View {
-        if option == droplet.notation {
-            Button(option.shortName) { droplet.chooseNotation(option) }
-                .buttonStyle(DroppyAccentButtonStyle(size: .small))
-        } else {
-            Button(option.shortName) { droplet.chooseNotation(option) }
-                .buttonStyle(DroppyQuietButtonStyle(size: .small))
+        let isActive = option == droplet.notation
+        return Button {
+            droplet.chooseNotation(option)
+        } label: {
+            Text(option.shortName)
+                .font(.system(size: 12, weight: isActive ? .semibold : .medium))
+                .foregroundStyle(isActive ? AdaptiveColors.notchSurfacePrimaryText : AdaptiveColors.notchSurfaceSecondaryText)
+                .padding(.horizontal, DroppySpacing.smd)
+                .frame(height: 24)
+                .background(
+                    Capsule(style: .continuous)
+                        .fill(isActive ? AdaptiveColors.notchSurfaceCardFill : Color.clear)
+                )
+                .contentShape(Capsule())
         }
+        .buttonStyle(.plain)
     }
 
     private var placeholder: some View {
