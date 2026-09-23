@@ -27,8 +27,8 @@
     "name": "rep0z",
     "kind": "community",
     "url": "https://github.com/rep0z-debug",
-    "avatar": "Creator.png"
-    "gitlab": "rep0z",
+    "avatar": "Creator.png",
+    "gitlab": "rep0z"
   },
   "source": {
     "repository": "https://gitlab.com/droppyformac1/droplets/-/tree/main/droplets/eyedropper",
